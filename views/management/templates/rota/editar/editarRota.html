@@ -1,0 +1,16 @@
+{% extends 'rota/editar/base.html' %}
+{% load static %}
+
+{% block form %}
+<div class="container mt-5">
+    <h1 class="text-center">Editar Rota</h1>
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'listarRotas' campanha_id=object.id_campanha.id %}" class="btn btn-danger">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

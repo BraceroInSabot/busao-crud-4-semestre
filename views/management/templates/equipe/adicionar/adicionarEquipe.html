@@ -1,0 +1,53 @@
+{% extends 'equipe/adicionar/base.html' %}
+{% load static %}
+
+{% block form %}
+<div class="container mt-5">
+    <h1 class="text-center">Adicionar Usuário à Equipe</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="user_id" class="form-label">ID do Usuário</label>
+            <input type="text" class="form-control" id="user_id" name="user_id" placeholder="Digite o ID do Usuário"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label for="is_motorista" class="form-label">Função</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="is_motorista" name="is_motorista" value="1">
+                <label class="form-check-label" for="is_motorista">Motorista</label>
+            </div>
+        </div>
+
+        <div id="role_selector" class="mb-3" style="display: none;">
+            <label for="role" class="form-label">Selecione a Função</label>
+            <select class="form-select" id="role" name="role">
+                <option value="ADM">Administrador</option>
+                <option value="MT">Motorista</option>
+                <option value="AUX">Auxiliar</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </form>
+    <br>
+    <a href="{% url 'listarEquipe' campanha.id %}" class="btn btn-secondary">Voltar</a>
+</div>
+{% endblock %}
+
+{% block script_motorista_check %}
+<script>
+    // Mostrar ou esconder a seleção de função com base no checkbox "Motorista"
+    document.getElementById('is_motorista').addEventListener('change', function () {
+        var roleSelector = document.getElementById('role_selector');
+        if (this.checked) {
+            roleSelector.style.display = 'block';
+        } else {
+            roleSelector.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

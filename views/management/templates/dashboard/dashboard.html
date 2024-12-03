@@ -1,0 +1,214 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">Dashboard - Sistema de Transporte</h2>
+
+    <!-- Área do motorista -->
+    <div class="row mb-4">
+        {% if user.is_motorista %}
+        <div class="col-lg">
+            <div class="dashboard-card bg-white p-4">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <h4 class="section-title">Campanhas ativas</h4>
+                    <a href="{% url 'listarCampanha' %}" class="btn btn-primary">
+                        Ver todos
+                    </a>
+                </div>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th></th>
+                            <th>Nome da Campanha</th>
+                            <th>Próxima Corrida</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in campanha_adm %}
+                        <tr>
+                            <td><img src="{{ c.id_onibus.imagem.url }}" alt="{{ c.id_onibus.nome }}" width="100px"
+                                    height="75px">
+                            </td>
+                            <td>{{ c.titulo }}</td>
+                            <td>{{ c.prox_corrida }}</td>
+                            <td>
+                                <a href="{% url 'listarCampanha' %}">
+                                    <button class="btn btn-primary btn-sm">Visualizar</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+
+                        <span class="text-center">Nenhum Ônibus Cadastrado!</span>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg">
+            <div class="dashboard-card bg-white p-4">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <h4 class="section-title">Onibus ativos</h4>
+                    <a href="{% url 'listarOnibus' %}" class="btn btn-primary">
+                        Ver todos
+                    </a>
+                </div>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th></th>
+                            <th>Nome</th>
+                            <th>Placa</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    {% for busao in onibus %}
+                    <tbody>
+                        <tr>
+                            <td><img src="{{ busao.imagem.url }}" alt="{{ busao.nome }}" width="100px" height="75px">
+                            </td>
+                            <td>{{ busao.nome }}</td>
+                            <td>{{ busao.placa }}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Visualizar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% empty %}
+
+                    <span class="text-center">Nenhum Ônibus Cadastrado!</span>
+
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-lg">
+            <div class="dashboard-card bg-white p-4">
+                <div style="display: flex; justify-content: space-between;">
+                    <h4 class="section-title">Campanhas ativas <span>(Motorista)</span></h4>
+                    <a href="{% url 'listarCampanha' %}" class="btn btn-primary">
+                        Visualizar Campanhas
+                    </a>
+                </div>
+                {% for c in campanha_adm %}
+                <br>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th></th>
+                            <th>Nome da Campanha</th>
+                            <th>Próxima Corrida</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="{{ c.id_onibus.imagem.url }}" alt="{{ c.id_onibus.nome }}" width="100px"
+                                    height="75px">
+                            </td>
+                            <td>{{ c.titulo }}</td>
+                            <td>{{ c.prox_corrida }}</td>
+                            <td>
+                                <a href="{% url 'listarCampanha' %}">
+                                    <button class="btn btn-primary btn-sm">Visualizar</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% empty %}
+
+                    <span class="text-center">Nenhum Ônibus Cadastrado!</span>
+
+                    {% endfor %}
+                </table>
+                <h4 class="section-title">Campanhas ativas <span>(Passageiro)</span></h4>
+                <br>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th></th>
+                            <th>Nome da Campanha</th>
+                            <th>Próxima Corrida</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in campanha_psg %}
+                        <tr>
+                            <td><img src="{{ c.id_onibus.imagem.url }}" alt="{{ c.id_onibus.nome }}" width="100px"
+                                    height="75px">
+                            </td>
+                            <td>{{ c.titulo }}</td>
+                            <td>{{ c.prox_corrida }}</td>
+                            <td>
+                                <a href="{% url 'listarCampanha' %}">
+                                    <button class="btn btn-primary btn-sm">Visualizar</button>
+                                </a>
+                            </td>
+                            {% empty %}
+
+                            <td colspan="4" class="text-center"><span>Nenhum Ônibus Cadastrado!</span></td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block style %}
+<style>
+    .dashboard-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .bus-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .bus-list li {
+        background: #fff;
+        padding: 10px 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .bus-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+</style>
+{% endblock %}

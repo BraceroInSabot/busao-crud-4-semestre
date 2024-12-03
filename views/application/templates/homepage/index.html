@@ -1,0 +1,171 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+
+{% block hero %}
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary"
+    style="background-image: url({% static 'img/onibus.jpg' %}); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="col-md-6 p-lg-5 mx-auto my-5">
+        <h1 class="display-3 fw-bold" style="color: white;">Segurança e conforto</h1>
+        <h4 class="fw-normal text-muted mb-5" style="color: white !important;">Faça a escolha que lhe garante uma melhor
+            qualidade de
+            vida</h4>
+        <div class="d-flex gap-3 justify-content-center lead fw-normal">
+            {% if user.is_authenticated %}
+            <a class="icon-link" href="{% url 'dashboard' %}">
+                <button class="btn btn-primary" type="button" id="hero-btn">
+                    Visualizar lista de Onibus
+                </button>
+            </a>
+            {% else %}
+            <a class="btn btn-primary" type="button" id="hero-btn" href="{% url 'register' %}">
+                Cadastre-se agora
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+</div>
+{% endblock %}
+
+{% block aboutus %}
+<div class="container px-4 py-5">
+    <h2 class="pb-2 border-bottom">Nossa missão</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+        <div class="col d-flex flex-column align-items-start gap-2">
+            <h2 class="fw-bold text-body-emphasis">Conquiste o gerenciamento digno de sua embarcação </h2>
+            <p class="text-body-secondary">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem
+                Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                galley
+                of type and scrambled it to make a type specimen book.</p>
+            <a href="#" class="btn btn-primary btn-lg">Nossos Objetivos</a>
+        </div>
+
+        <div class="col">
+            <div class="row row-cols-1 row-cols-sm-2 g-4">
+                <div class="col d-flex flex-column gap-2">
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Gestão</h4>
+                    <p class="text-body-secondary">Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry.
+                    </p>
+                </div>
+
+                <div class="col d-flex flex-column gap-2">
+
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Comunicação</h4>
+                    <p class="text-body-secondary">Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry.
+                </div>
+
+                <div class="col d-flex flex-column gap-2">
+
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Planejamento</h4>
+                    <p class="text-body-secondary">Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry.
+                </div>
+
+                <div class="col d-flex flex-column gap-2">
+
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Facilidade</h4>
+                    <p class="text-body-secondary">Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row featurette" style="margin-top: 100px;">
+        <h2 class="pb-2 border-bottom">Projetos</h2>
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Em apoio com a prefeitura de São Paulo [...].
+                <span class="text-body-secondary">Espere só até você ver.</span>
+            </h2>
+            <p class="lead">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                been
+                the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                and
+                scrambled it to make a type specimen book.
+            </p>
+        </div>
+        <div class="col-md-5">
+            <img src="{% static 'img/tchau.jpg' %}" width="500px" height="400px" alt="">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block testimonial %}
+<section class="home-testimonial" style="margin: 300px 0 200px 0;">
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center testimonial-pos">
+            <div class="col-md-12 pt-4 d-flex justify-content-center">
+                <h3>O que os usuários dizem de nós?</h3>
+            </div>
+        </div>
+        <section class="home-testimonial-bottom">
+            <div class="container testimonial-inner">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-4 style-3">
+                        <div class="tour-item ">
+                            <div class="tour-desc bg-white">
+                                <div class="tour-text color-grey-3 text-center">Lorem Ipsum is simply dummy text of the
+                                    printing and
+                                    typesetting industry. Lorem Ipsum has been
+                                    the industry's standard dummy text ever since the 1500s, when an unknown printer
+                                    took a galley of
+                                    type and
+                                    scrambled it to make a type specimen book.</div>
+                                <div class="d-flex justify-content-center pt-2 pb-2">
+                                    <img class="tm-people" src="{% static 'img/testemonial1.jpg' %}" width="100%"
+                                        height="400px" alt="Estagiário">
+                                </div>
+                                <div class="link-name d-flex justify-content-center"><strong>Testemunha 1</strong></div>
+                                <div class="link-position d-flex justify-content-center">Empresário, Orbis Transportes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 style-3">
+                        <div class="tour-item ">
+                            <div class="tour-desc bg-white">
+                                <div class="tour-text color-grey-3 text-center">Lorem Ipsum is simply dummy text of the
+                                    printing and
+                                    typesetting industry. Lorem Ipsum has been
+                                    the industry's standard dummy text ever since the 1500s, when an unknown printer
+                                    took a galley of
+                                    type and
+                                    scrambled it to make a type specimen book.</div>
+                                <div class="d-flex justify-content-center pt-2 pb-2">
+                                    <img class="tm-people" src="{% static 'img/testemonial2.jpg' %}" width="100%"
+                                        height="400px" alt="">
+                                </div>
+                                <div class="link-name d-flex justify-content-center"><strong>Testemunha 2</strong></div>
+                                <div class="link-position d-flex justify-content-center">Motorista, Porto Trajetos</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 style-3">
+                        <div class="tour-item ">
+                            <div class="tour-desc bg-white">
+                                <div class="tour-text color-grey-3 text-center">Lorem Ipsum is simply dummy text of the
+                                    printing and
+                                    typesetting industry. Lorem Ipsum has been
+                                    the industry's standard dummy text ever since the 1500s, when an unknown printer
+                                    took a galley of
+                                    type and
+                                    scrambled it to make a type specimen book.</div>
+                                <div class="d-flex justify-content-center pt-2 pb-2">
+                                    <img class="tm-people" src="{% static 'img/testemonial3.jpg' %}" width="100%"
+                                        height="400px" alt="">
+                                </div>
+                                <div class="link-name d-flex justify-content-center"><strong>Testemunha 3</strong></div>
+                                <div class="link-position d-flex justify-content-center">Administrador Contábil, pai do
+                                    Lucas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+</section>
+{% endblock %}

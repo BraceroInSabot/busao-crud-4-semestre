@@ -1,0 +1,26 @@
+{% extends 'campanha/excluir/base.html' %}
+{% load static %}
+
+{% block confirmacao %}
+<div class="container mt-5">
+    <h1 class="text-center">Deletar Campanha</h1>
+
+    <div class="alert alert-warning text-center">
+        <strong>Atenção!</strong> Você está prestes a excluir a campanha "{{ campanha.titulo }}". Essa ação não pode ser
+        desfeita.
+    </div>
+
+    <div class="text-center mb-4">
+        <h3>Tem certeza que deseja excluir a campanha?</h3>
+        <p>{{ campanha.titulo }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger">Sim, excluir</button>
+            <a href="{% url 'listarCampanha' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+/* Estilização do contêiner do formulário */
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título do formulário */
+h2 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilização do grupo de campos do formulário */
+.form-group p {
+    margin: 10px 0;
+}
+
+/* Campos do formulário */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Estilização do botão de submit */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover para o botão */
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Estilização para o texto de erro, caso haja */
+.errorlist {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

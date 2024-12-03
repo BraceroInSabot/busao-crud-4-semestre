@@ -1,0 +1,99 @@
+{% extends 'profile\listar\base.html' %}
+{% load static %}
+
+{% block sheet %}
+<div class="col" style="padding: 0 200px 0 200px;">
+    <!-- Informações do Usuário -->
+    <div class="row">
+        <div class="col mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="e-profile">
+                        <div class="row">
+                            <!-- Imagem de Perfil -->
+                            <div class="col-12 col-sm-auto mb-3">
+                                <div class="mx-auto" style="width: 140px;">
+                                    <div class="d-flex justify-content-center align-items-center rounded"
+                                        style="height: 140px; background-color: rgb(233, 236, 239);">
+                                        <img id="profilePreview" src="{{ request.user.imagem.url }}"
+                                            alt="Foto de {{ request.user.usuario }}" height="140" width="140">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                <div class="text text-sm-left mb-2 mb-sm-0">
+                                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ request.user.nome.title }}
+                                        <strong>[ID {{ request.user.id }}]</strong>
+                                    </h4>
+                                    <p class="mb-0">{{ request.user.email }}</p>
+                                    <div class="text-muted"><small>Entrou em: {{ request.user.date_joined }}</small>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content pt-3">
+                            <div class="tab-pane active">
+                                <!-- Campos do Formulário -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <h3>Nome Completo</h3>
+                                            <label>{{ request.user.nome}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <h3>Nome de Usuário</h3>
+                                            <label>{{ request.user.usuario}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <h3>Email</h3>
+                                            <label>{{ request.user.email}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <h3>Telefone</h3>
+                                            <label>{{ request.user.telefone}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if request.user.endereco_id %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div style="display: inline;">
+                                            <h3>Endereço</h3>
+
+                                        </div>
+                                        <p>Rua: {{address.rua}}, {{address.numero}}.</p>
+                                        <p>Bairro: {{address.bairro}}, {{address.cidade}}</p>
+                                        <p>CEP: {{address.cep}}</p>
+                                        <p>Complemento: {{address.complemento}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="row">
+                                <div class="col">
+                                    <H3>Endereço Ainda Não Informado</H3>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

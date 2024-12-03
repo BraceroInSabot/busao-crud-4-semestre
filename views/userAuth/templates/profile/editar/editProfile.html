@@ -1,0 +1,247 @@
+{% extends 'profile/editar/base.html' %}
+{% load static %}
+
+{% block userForm %}
+<form method="post" enctype="multipart/form-data" class="form-horizontal">
+    {% csrf_token %}
+    <div class="col" style="padding: 0 200px 0 200px;">
+        <!-- Informações do Usuário -->
+        <div class="row">
+            <div class="col mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="e-profile">
+                            <div class="row">
+                                {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>Erro(s):</strong>
+                                    <ul>
+                                        {% for field, errors in form.errors.items %}
+                                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                                <!-- Imagem de Perfil -->
+                                <div class="col-12 col-sm-auto mb-3">
+                                    <div class="mx-auto" style="width: 140px;">
+                                        <div class="d-flex justify-content-center align-items-center rounded"
+                                            style="height: 140px; background-color: rgb(233, 236, 239);">
+                                            <img id="profilePreview" src="{{ request.user.imagem.url }}"
+                                                alt="Foto de {{ request.user.usuario }}" height="140" width="140">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                    <div class="text-sm-left mb-2 mb-sm-0">
+                                        <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ request.user.nome.title }}</h4>
+                                        <p class="mb-0">{{ request.user.email }}</p>
+                                        <div class="text-muted"><small>Entrou em: {{ request.user.date_joined }}</small>
+                                        </div>
+                                        <div class="mt-2">
+                                            <i class="fa fa-fw fa-camera"></i>
+                                            <input type="file" id="imagem" name="imagem" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-content pt-3">
+                                <div class="tab-pane active">
+                                    <!-- Campos do Formulário -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Nome Completo</label>
+                                                <input class="form-control" type="text" name="nome"
+                                                    value="{{ request.user.nome }}">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Nome de Usuário</label>
+                                                <input class="form-control" type="text" name="usuario"
+                                                    value="{{ request.user.usuario }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input class="form-control" type="email" name="email"
+                                                    value="{{ request.user.email }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Telefone</label>
+                                                <input class="form-control" type="text" name="telefone"
+                                                    value="{{ request.user.telefone }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                {% if request.user.endereco_id %}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <div style="display: inline;">
+                                                <label>Endereço</label>
+                                                <a
+                                                    href="{% url 'editAdress' request.user.id request.user.endereco_id %}">
+                                                    <button type="button" class="btn btn-info">
+                                                        <img src="{% static 'img/gadgets/edit2.png' %}" height="28"
+                                                            width="30" alt="EDIT">
+                                                    </button>
+                                                </a>
+                                                <a
+                                                    href="{% url 'removeAddress' request.user.id request.user.endereco_id %}">
+                                                    <button type="button" class="btn btn-danger"> <img
+                                                            src="{% static 'img/gadgets/remove2.png' %}" height="28"
+                                                            width="30" alt="REMOVE">
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            <p>Rua: {{address.rua}}, {{address.numero}}.</p>
+                                            <p>Bairro: {{address.bairro}}, {{address.cidade}}</p>
+                                            <p>CEP: {{address.cep}}</p>
+                                            <p>Complemento: {{address.complemento}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="{% url 'addAdress' request.user.id %}">
+                                            <button type="button" class="btn btn-info">
+                                                Adicionar Endereço
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <br>
+
+                            <!-- Botão Salvar Alterações -->
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+                                    <a href="{% url 'passwordProfile' request.user.id %}" class="btn btn-info">
+                                        Alterar Senha
+                                    </a>
+                                    <button class="btn btn-success" type="submit">Salvar Alterações</button>
+                                    <a href="{% url 'removeProfile' request.user.id %}" class="btn btn-danger">
+                                        Desativar Usuario
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+
+{% block address %}
+<!-- Modal para o formulário de endereço -->
+<div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressModalLabel">Cadastrar Endereço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addressForm">
+                    {% csrf_token %}
+                    {{ address_form.as_p }}
+                    <div id="cidadeSuggestions" class="list-group"></div>
+                    <button type="button" id="submitAddress" class="btn btn-primary">Salvar Endereço</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script_address_form_insert %}
+<script>
+    // AJAX para enviar o formulário de endereço
+    document.getElementById("submitAddress").addEventListener("click", function () {
+        const form = document.getElementById("addressForm");
+        const formData = new FormData(form);
+
+        fetch("", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    form.reset();
+                    new bootstrap.Modal(document.getElementById("addressModal")).hide();
+                } else {
+                    alert("Erro: " + JSON.stringify(data.errors));
+                }
+            })
+            .catch(error => console.error("Erro ao salvar o endereço:", error));
+    });
+</script>
+{% endblock %}
+
+{% block script_address_remove %}
+<script>
+    // Função para abrir o modal de confirmação
+    function confirmRemove(event) {
+        event.preventDefault(); // Previne o comportamento padrão do botão
+        document.getElementById("removeConfirmationModal").style.display = "block";
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        document.getElementById("removeConfirmationModal").style.display = "none";
+    }
+
+    // Função que executa a ação de remoção (pode ser ajustada conforme necessário)
+    function confirmAction() {
+        alert("Item removido com sucesso!"); // Substitua por sua lógica de remoção
+        closeModal(); // Fecha o modal após a ação
+    }
+</script>
+{% endblock %}
+
+{% block script_update_image %}
+<script>
+    // Captura o campo de upload e o elemento de imagem de preview
+    const imageInput = document.getElementById('imagem');
+    const profilePreview = document.getElementById('profilePreview');
+
+    imageInput.addEventListener('change', function (event) {
+        const file = event.target.files[0]; // Obtem o arquivo selecionado
+        if (file) {
+            const reader = new FileReader(); // Utiliza FileReader para leitura do arquivo
+
+            // Define a função de callback para o FileReader
+            reader.onload = function (e) {
+                profilePreview.src = e.target.result; // Atualiza o src da imagem de preview
+            };
+
+            // Lê o arquivo selecionado como uma URL de dados
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

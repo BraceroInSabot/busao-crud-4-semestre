@@ -1,0 +1,120 @@
+{% extends 'campanha/listar/base.html' %}
+{% load static %}
+
+{% block listagem %}
+<div class="container">
+    <h1 class="text-center mb-4">Listagem de Campanhas</h1>
+    <div class="mb-3 text-end">
+        <a href="{% url 'adicionarCampanha' %}" class="btn btn-primary">Criar Nova Campanha</a>
+    </div>
+    <h3 class="text-center">Campanhas (Motorista)</h3>
+    <br>
+    <table class="table table-striped text-center table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Codigo</th>
+                <th>Título</th>
+                <th>Ônibus</th>
+                <th>Rota</th>
+                <th>Pessoas</th>
+                <th>Relação</th>
+                <th>Próxima Corrida</th>
+
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campanha in campanha_adm %}
+            <tr>
+                <td>{{ campanha.id }}</td>
+                <td>{{ campanha.titulo }}</td>
+                <td>{{ campanha.id_onibus }}</td>
+                <td><a href="{% url 'listarRotas' campanha.id %}" class="btn btn-info">Gerenciar Rotas</a></td>
+                <td><a href="{% url 'listarEquipe' campanha.id %}" class="btn btn-info">Gerenciar Equipe</a></td>
+                <td>{% for administrador in campanha.administrador_set.all %}
+                    {{ administrador.role }}
+                    {% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                    Nenhum administrador.
+                    {% endfor %}
+                </td>
+                <td>{{ campanha.prox_corrida|date:"d/m/Y" }}</td>
+
+                <td>
+                    <a href="{% url 'editarCampanha' campanha.id %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'excluirCampanha' campanha.id %}" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">Nenhuma campanha encontrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h3 class="text-center">Campanhas (Passageiro)</h3>
+    <br>
+    <table class="table table-striped text-center table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Codigo</th>
+                <th>Título</th>
+                <th>Ônibus</th>
+                <th>Rota</th>
+                <th>Pessoas</th>
+                <th>Relação</th>
+                <th>Próxima Corrida</th>
+
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campanha in campanha_passageiro %}
+            <tr>
+                <td>{{ campanha.id }}</td>
+                <td>{{ campanha.titulo }}</td>
+                <td>{{ campanha.id_onibus }}</td>
+                <td><a href="{% url 'listarRotas' campanha.id %}" class="btn btn-info">Gerenciar Rotas</a></td>
+                <td><a href="{% url 'listarEquipe' campanha.id %}" class="btn btn-info">Gerenciar Equipe</a></td>
+                <td>Passageiro</td>
+                <td>{{ campanha.prox_corrida|date:"d/m/Y" }}</td>
+
+                <td>
+                    Nenhuma ação
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">Nenhuma campanha encontrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Voltar para o Dashboard</a>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 30px;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .status-ativo {
+        color: green;
+        font-weight: bold;
+    }
+
+    .status-inativo {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

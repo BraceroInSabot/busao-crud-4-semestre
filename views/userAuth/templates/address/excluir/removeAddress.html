@@ -1,0 +1,76 @@
+{% extends 'address/excluir/base.html' %}
+{% load static %}
+
+{% block confirmation %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="text-center text-danger">Remover Endereço</h3>
+        <hr>
+        <form method="post" action="{% url 'removeAddress' id=request.user.id endereco_id=address.id %}" class="mt-4">
+            {% csrf_token %}
+            <h5>Confirmação</h5>
+            <p>Você está prestes a remover o seguinte endereço vinculado ao seu usuário:</p>
+            <div class="alert alert-warning text-start">
+                <p><strong>Rua:</strong> {{ address.rua }}, {{ address.numero }}.</p>
+                <p><strong>Bairro:</strong> {{ address.bairro }}, {{ address.cidade }}</p>
+                <p><strong>CEP:</strong> {{ address.cep }}</p>
+                <p><strong>Complemento:</strong> {{ address.complemento }}</p>
+            </div>
+            {{ form.as_p }}
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'editProfile' id=user.id %}" class="btn btn-outline-danger btn-lg">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Confirmar Remoção
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .card {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+
+    .alert {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        border-radius: 5px;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+
+    form {
+        text-align: center;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .btn-outline-danger {
+        border: 2px solid #dc3545;
+        color: #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+</style>
+{% endblock %}

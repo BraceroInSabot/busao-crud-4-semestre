@@ -1,0 +1,32 @@
+{% extends 'login/base.html' %}
+{% load static %}
+
+{% block form %}
+<h2 class="text-center my-4">Login</h2>
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div class="invalid-feedback">
+                {{ field.errors|striptags }}
+            </div>
+            {% else %}
+            <div class="form-text text-muted">{{ field.help_text }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Registrar</button>
+    </div>
+</form>
+<style>
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}

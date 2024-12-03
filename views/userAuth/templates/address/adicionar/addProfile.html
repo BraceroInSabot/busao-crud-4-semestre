@@ -1,0 +1,101 @@
+{% extends 'address\adicionar\base.html' %}
+{% load static %}
+
+{% block form %}
+<div class="container mt-5">
+    <h1 class="text-center">Incluir Endereço</h1>
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-6 col-md-8">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <form method="post" action="{% url 'addAdress' request.user.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="rua" class="form-label">Rua</label>
+                    <input type="text" id="rua" name="rua" value="{{ address.rua }}" class="form-control"
+                        placeholder="Digite o nome da rua" required>
+                </div>
+                <div class="mb-3">
+                    <label for="bairro" class="form-label">Bairro</label>
+                    <input type="text" id="bairro" name="bairro" value="{{ address.bairro }}" class="form-control"
+                        placeholder="Digite o bairro" required>
+                </div>
+                <div class="mb-3">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" id="numero" name="numero" value="{{ address.numero }}" class="form-control"
+                        placeholder="Digite o número da casa" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cep" class="form-label">CEP</label>
+                    <input type="text" id="cep" name="cep" value="{{ address.cep }}" class="form-control"
+                        placeholder="Digite o CEP" required>
+                </div>
+                <div class="mb-3">
+                    <label for="complemento" class="form-label">Complemento</label>
+                    <input type="text" id="complemento" name="complemento" value="{{ address.complemento }}"
+                        class="form-control" placeholder="Digite o complemento">
+                </div>
+                <div class="mb-3">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" value="{{ address.cidade.nome }}" class="form-control"
+                        placeholder="Digite a cidade" required>
+                    <div id="cidadeSuggestions" class="list-group"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'editProfile' id=user.id %}" class="btn btn-danger">Cancelar</a>
+
+                    <a href="{% url 'listProfile' id=user.id usuario=request.user.usuario %}">
+                        <button type="submit" class="btn btn-primary">Salvar
+                            Alterações</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+
+{% block script_autocomplete %}
+<script>
+    document.getElementById("cidade").addEventListener("input", function () {
+        const input = this.value;
+        const suggestionsDiv = document.getElementById("cidadeSuggestions");
+
+        if (input.length > 2) { // Busca após 3 caracteres
+            fetch(`/autocomplete/cidades/?term=${input}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsDiv.innerHTML = ""; // Limpa as sugestões anteriores
+                    data.forEach(cidade => {
+                        const item = document.createElement("a");
+                        item.textContent = cidade;
+                        item.href = "#";
+                        item.className = "list-group-item list-group-item-action";
+                        item.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            document.getElementById("cidade").value = cidade; // Seleciona a cidade
+                            suggestionsDiv.innerHTML = ""; // Limpa as sugestões
+                        });
+                        suggestionsDiv.appendChild(item);
+                    });
+                });
+        } else {
+            suggestionsDiv.innerHTML = ""; // Limpa as sugestões se o input for curto
+        }
+    });
+</script>
+{% endblock %}

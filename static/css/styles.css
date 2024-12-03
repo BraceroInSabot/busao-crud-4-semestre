@@ -1,0 +1,26 @@
+body {
+    margin: 20px !important;
+}
+
+
+
+#hero {
+    background-image: url("application\static\css\onibus.jpg") !important;
+    background-size: cover;
+    /* Faz a imagem cobrir toda a div */
+    background-position: center;
+    /* Centraliza a imagem */
+    background-repeat: no-repeat;
+    /* Não repete a imagem */
+    height: 100vh;
+    /* Define a altura da div como 100% da altura da viewport */
+    color: white;
+}
+
+#hero-btn {
+    padding: 15px;
+}
+
+.edit {
+    text-decoration: none !important;
+}

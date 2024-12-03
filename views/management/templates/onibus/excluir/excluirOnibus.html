@@ -1,0 +1,24 @@
+{% extends 'onibus/excluir/base.html' %}
+{% load static %}
+
+{% block form %}
+<div class="container">
+    <h1 class="text-center mb-4">Excluir Ônibus</h1>
+
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">Tem certeza de que deseja excluir este ônibus?</h4>
+        <p><strong>Nome:</strong> {{ onibus.nome }}</p>
+        <p><strong>Placa:</strong> {{ onibus.placa }}</p>
+        <p><strong>Marca:</strong> {{ onibus.marca|default:"N/A" }}</p>
+        <p><strong>Modelo:</strong> {{ onibus.modelo|default:"N/A" }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger">Excluir</button>
+            <a href="{% url 'listarOnibus' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

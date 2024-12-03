@@ -1,0 +1,71 @@
+{% extends 'profile/excluir/base.html' %}
+{% load static %}
+
+{% block confirmation %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="text-center text-danger">Desativar Conta</h3>
+        <hr>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form method="post" action="{% url 'removeProfile' id=request.user.id %}" class="mt-4">
+            {% csrf_token %}
+            <h5>Confirmação</h5>
+            <p>Você está prestes a desativar sua conta. Esta ação não poderá ser desfeita. Confirme abaixo se deseja
+                continuar:</p>
+            <div class="alert alert-warning text-start">
+                <p><strong>Nome do Usuário:</strong> {{ user.usuario }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Telefone:</strong> {{ user.email }}</p>
+                <p><strong>Data de Cadastro:</strong> {{ user.date_joined|date:"d/m/Y" }}</p>
+            </div>
+            <div class="form-group">
+                <label for="choice_reason" class="form-label"><strong>Motivo da Desativação:</strong></label>
+                <select id="choice_reason" name="choice_reason" class="form-select" onchange="toggleOtherReasonField()">
+                    <option value="" selected disabled>Selecione o motivo</option>
+                    <option value="NG">Não gostei do Sistema</option>
+                    <option value="MG">Estou mudando de sistema</option>
+                    <option value="ER">Muitos erros</option>
+                    <option value="OU">Outros motivos...</option>
+                </select>
+            </div>
+            <div class="form-group mt-3" id="other_reason_field" style="display: none;">
+                <label for="other_reason" class="form-label"><strong>Descreva o motivo:</strong></label>
+                <textarea id="other_reason" name="reason" class="form-control" rows="4"
+                    placeholder="Informe o motivo..."></textarea>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'editProfile' id=user.id %}" class="btn btn-outline-danger btn-lg">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Confirmar Desativação
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script_reason_form %}
+<script>
+    function toggleOtherReasonField() {
+        const choiceReason = document.getElementById("choice_reason").value;
+        const otherReasonField = document.getElementById("other_reason_field");
+
+        // Exibe o campo de texto apenas se "Outros motivos..." for selecionado
+        if (choiceReason === "OU") {
+            otherReasonField.style.display = "block";
+        } else {
+            otherReasonField.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}
